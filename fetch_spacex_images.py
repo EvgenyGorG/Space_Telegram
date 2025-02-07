@@ -1,7 +1,6 @@
 import argparse
 from pathlib import Path
 
-from dotenv import load_dotenv
 import requests
 
 from picture_work_instruments import picture_download
@@ -22,8 +21,6 @@ def download_spacex_images(images_file_path, launch_id):
 
 
 def main():
-    load_dotenv()
-
     images_file_path = r'D:\Devman\Space_Telegram\images'
     Path(images_file_path).mkdir(parents=True, exist_ok=True)
 
