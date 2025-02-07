@@ -7,28 +7,6 @@ from dotenv import load_dotenv
 import requests
 
 
-def picture_download(picture_name, picture_url, images_file_path):
-    response = requests.get(picture_url)
-    response.raise_for_status()
-
-    with open(images_file_path + '\\' + picture_name, 'wb') as picture:
-        picture.write(response.content)
-
-
-def fetch_spacex_last_launch(images_file_path, launch_id='latest'):
-    space_X_API_get_pictures_url_method = 'https://api.spacexdata.com/v5/launches/'
-
-    response = requests.get(space_X_API_get_pictures_url_method + launch_id)
-    response.raise_for_status()
-    response = response.json()
-
-    space_X_picture_links = response['links']['flickr']['original']
-
-    for picture_number, picture_link in enumerate(space_X_picture_links):
-        space_X_picture_name = f'spacex_{picture_number + 1}.jpg'
-        picture_download(space_X_picture_name, picture_link, images_file_path)
-
-
 def get_file_expansion(url):
     url_parts = urlparse(url)
     url_address = url_parts[2]
@@ -92,10 +70,6 @@ def main():
 
     picture_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
     picture_name = 'hubble.jpeg'
-    picture_download(picture_name, picture_url, images_file_path)
-
-    space_X_launch_id = '5eb87d47ffd86e000604b38a'
-    fetch_spacex_last_launch(images_file_path, space_X_launch_id)
 
     download_APOD_images(nasa_api_key, images_file_path)
 
