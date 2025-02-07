@@ -1,18 +1,17 @@
-import argparse
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 import requests
 
-from picture_work_instruments import picture_download
+from picture_work_instruments import picture_download, get_file_expansion
 
 
-def download_apod_images(api_key, images_file_path, number_of_picture):
+def download_apod_images(api_key, images_file_path):
     apod_image_info = 'https://api.nasa.gov/planetary/apod'
 
     payload = {
-        'count': number_of_picture,
+        'count': 30,
         'api_key': api_key
     }
 
@@ -21,8 +20,9 @@ def download_apod_images(api_key, images_file_path, number_of_picture):
     images_info = images_info.json()
 
     for page_number, page in enumerate(images_info):
-        image_name = f'nasa_apod_{page_number + 1}.jpg'
         image_url = images_info[page_number]['url']
+        image_expansion = get_file_expansion(image_url)
+        image_name = f'nasa_apod_{page_number + 1}{image_expansion}'
         picture_download(image_name, image_url, images_file_path)
 
 
@@ -33,18 +33,7 @@ def main():
     images_file_path = r'D:\Devman\Space_Telegram\images'
     Path(images_file_path).mkdir(parents=True, exist_ok=True)
 
-    parser = argparse.ArgumentParser(
-        description='Download images from APOD NASA'
-    )
-    parser.add_argument(
-        '--count',
-        type=int,
-        help='Required number of picture',
-        default=10
-    )
-    args = parser.parse_args()
-
-    download_apod_images(nasa_api_key, images_file_path, args.count)
+    download_apod_images(nasa_api_key, images_file_path)
 
 
 if __name__ == '__main__':
