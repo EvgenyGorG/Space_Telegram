@@ -12,6 +12,10 @@ def main():
     tg_chat_id = '@CosmoPicc'
 
     tg_bot.send_message(chat_id=tg_chat_id, text="Hello people.")
+    tg_bot.send_document(
+        chat_id=tg_chat_id,
+        document=open('images/spacex_1.jpg', 'rb')
+    )
 
 
 if __name__ == '__main__':
