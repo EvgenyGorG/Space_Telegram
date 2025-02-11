@@ -10,8 +10,10 @@
 
 ### Пример запуска
 
+```
 >>> python fetch_spacex_images.py -id 5eb87d47ffd86e000604b38a
-> 
+>>>
+```
 
 ## Скрипт изображений APOD NASA
 
@@ -19,8 +21,10 @@
 
 ### Пример запуска
 
+```
 >>> python fetch_APOD_NASA_images.py
-> 
+>>>
+```
 
 ## Скрипт изображений EPIC NASA
 
@@ -29,8 +33,10 @@ EPIC NASA.
 
 ### Пример запуска
 
+```
 >>> python fetch_EPIC_NASA_images.py
-> 
+>>>
+```
 
 ## Скрипт отправки изображения с помощью Telegram бота
 
@@ -40,8 +46,10 @@ EPIC NASA.
 
 ### Пример запуска
 
+```
 >>> python send_specific_image.py -i images/nasa_apod_1.png
-> 
+>>>
+```
 
 ## Скрипт автоматизированной отправки изображений 
 
@@ -52,8 +60,10 @@ EPIC NASA.
 
 ### Пример запуска
 
+```
 >>> python endless_sending_of_all_photos.py
-> 
+>>>
+```
 
 ## Общие функции
 
