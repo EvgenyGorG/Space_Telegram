@@ -15,7 +15,7 @@ def send_images(tg_bot, tg_chat_id, folder, send_time):
     while True:
         random.shuffle(images)
         for image in images:
-            image_path = folder + '/' + image
+            image_path = f'{folder}/{image}'
             send_image(tg_bot, tg_chat_id, image_path)
             time.sleep(send_time)
 

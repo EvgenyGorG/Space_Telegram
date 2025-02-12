@@ -9,7 +9,7 @@ from picture_work_instruments import picture_download
 def download_spacex_images(images_file_path, launch_id):
     launch_info = 'https://api.spacexdata.com/v5/launches/'
 
-    response = requests.get(launch_info + launch_id)
+    response = requests.get(f'{launch_info}{launch_id}')
     response.raise_for_status()
     response = response.json()
 
@@ -21,7 +21,7 @@ def download_spacex_images(images_file_path, launch_id):
 
 
 def main():
-    images_file_path = r'D:\Devman\Space_Telegram\images'
+    images_file_path = 'images'
     Path(images_file_path).mkdir(parents=True, exist_ok=True)
 
     parser = argparse.ArgumentParser(

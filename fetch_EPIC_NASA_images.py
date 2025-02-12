@@ -31,7 +31,7 @@ def main():
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
 
-    images_file_path = r'D:\Devman\Space_Telegram\images'
+    images_file_path = 'images'
     Path(images_file_path).mkdir(parents=True, exist_ok=True)
 
     download_nasa_epic_images(nasa_api_key, images_file_path)
