@@ -1,5 +1,6 @@
 import argparse
 import os
+from pathlib import Path
 import random
 
 import telegram
@@ -11,7 +12,7 @@ def send_image(tg_bot, tg_chat_id, image_path):
         folder = 'images'
         images = os.listdir(folder)
         image = random.choice(images)
-        image_path = f'{folder}/{image}'
+        image_path = Path(folder, image)
 
     tg_bot.send_document(
         chat_id=tg_chat_id,
