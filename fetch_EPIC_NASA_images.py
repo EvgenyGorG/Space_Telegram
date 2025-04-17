@@ -1,10 +1,12 @@
+import argparse
+from datetime import datetime
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 import requests
 
-from picture_work_instruments import picture_download, get_file_expansion
+from picture_work_instruments import download_picture, get_file_expansion
 
 
 def download_nasa_epic_images(api_key, images_file_path):
@@ -20,21 +22,39 @@ def download_nasa_epic_images(api_key, images_file_path):
 
     for page_number in range(10):
         file_name = images_info_response[page_number]['image']
-        image_date = images_info_response[page_number]['date'].split(' ')[0].replace('-', '/')
-        image_url = f'https://api.nasa.gov/EPIC/archive/natural/{image_date}/png/{file_name}.png?api_key={api_key}'
+
+        image_date_time = images_info_response[page_number]['date']
+        iso_image_date_time = datetime.fromisoformat(image_date_time)
+        formatted_image_date = iso_image_date_time.strftime("%Y/%m/%d")
+
+        response = requests.get(f'https://api.nasa.gov/EPIC/archive/natural/{formatted_image_date}/png/{file_name}.png', params=payload)
+        image_url = response.url
+
         image_expansion = get_file_expansion(image_url)
         image_name = f'nasa_epic_{page_number + 1}{image_expansion}'
-        picture_download(image_name, image_url, images_file_path)
+
+        download_picture(image_name, image_url, images_file_path)
 
 
 def main():
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
 
-    images_file_path = 'images'
-    Path(images_file_path).mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(
+        description='Download EPIC NASA images'
+    )
 
-    download_nasa_epic_images(nasa_api_key, images_file_path)
+    parser.add_argument(
+        '-d',
+        '--directory',
+        type=str,
+        help='In which directory do you want to save the images?',
+        default=Path(Path.cwd(), 'images')
+    )
+
+    args = parser.parse_args()
+
+    download_nasa_epic_images(nasa_api_key, args.directory)
 
 
 if __name__ == '__main__':
