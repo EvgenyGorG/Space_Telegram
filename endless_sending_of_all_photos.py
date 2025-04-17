@@ -1,3 +1,4 @@
+import argparse
 import os
 from pathlib import Path
 import random
@@ -24,14 +25,37 @@ def send_images(tg_bot, tg_chat_id, folder, send_time):
 def main():
     load_dotenv()
     tg_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
-    send_time = int(os.environ['SEND_TIME'])
 
     tg_bot = telegram.Bot(token=tg_bot_token)
-    tg_chat_id = '@CosmoPicc'
+    tg_chat_id = os.environ['TG_CHAT_ID']
 
-    folder = 'images'
+    parser = argparse.ArgumentParser(
+        description='Automatic photo sending'
+    )
 
-    send_images(tg_bot, tg_chat_id, folder, send_time)
+    parser.add_argument(
+        '-d',
+        '--directory',
+        type=str,
+        help='Which directory do you want to send images from?',
+        default=Path(Path.cwd(), 'images')
+    )
+
+    parser.add_argument(
+        '-s',
+        '--send_time',
+        type=str,
+        help='Frequency of sending images (in seconds)',
+        default=14400
+    )
+
+    args = parser.parse_args()
+
+    try:
+        send_images(tg_bot, tg_chat_id, args.directory, args.send_time)
+    except telegram.error.NetworkError:
+        time.sleep(10)
+        send_images(tg_bot, tg_chat_id, args.directory, args.send_time)
 
 
 if __name__ == '__main__':
