@@ -4,37 +4,40 @@
 
 ## Скрипт изображений SpaceX
 
-Скрипт `fetch_spacex_images.py` позволяет скачать изображения с запуска SpaceX.
+Скрипт `fetch_spacex_images.py` позволяет скачать изображения с запуска SpaceX
+в указанную директорию.
 По умолчанию скачиваются изображения с последнего запуска, но пользователь
 может ввести ID запуска вручную.
 
 ### Пример запуска
 
 ```
->>> python fetch_spacex_images.py -id 5eb87d47ffd86e000604b38a
+>>> python fetch_spacex_images.py -id 5eb87d47ffd86e000604b38a -d C://Users/User/Folder
 >>>
 ```
 
 ## Скрипт изображений APOD NASA
 
 Скрипт `fetch_APOD_NASA_images.py` позволяет скачать изображения дня NASA APOD.
+По желанию пользователь может указать количество скачиваемых изображений и 
+директорию для загрузки.
 
 ### Пример запуска
 
 ```
->>> python fetch_APOD_NASA_images.py
+>>> python fetch_APOD_NASA_images.py -d C://Users/User/Folder -n 15
 >>>
 ```
 
 ## Скрипт изображений EPIC NASA
 
 Скрипт `fetch_EPIC_NASA_images.py` позволяет скачать несколько недавних изображений
-EPIC NASA.
+EPIC NASA. По желанию пользователь может указать директорию для загрузки.
 
 ### Пример запуска
 
 ```
->>> python fetch_EPIC_NASA_images.py
+>>> python fetch_EPIC_NASA_images.py -d C://Users/User/Folder
 >>>
 ```
 
@@ -47,7 +50,7 @@ EPIC NASA.
 ### Пример запуска
 
 ```
->>> python send_specific_image.py -i images/nasa_apod_1.png
+>>> python send_specific_image.py -i C://User/images/nasa_apod_1.png
 >>>
 ```
 
@@ -55,13 +58,13 @@ EPIC NASA.
 
 Скрипт `endless_sending_of_all_photos.py` позволяет отправлять изображение
 в групповой чат при помощи телеграмм бота в автоматическом режиме. Пользователь
-может настроить периодичность отправки изображения, по умолчанию изображение
-отправляется каждые 4 часа. 
+может выбрать директорию и настроить периодичность отправки изображения, 
+по умолчанию изображение отправляется каждые 4 часа. 
 
 ### Пример запуска
 
 ```
->>> python endless_sending_of_all_photos.py
+>>> python endless_sending_of_all_photos.py -d C://Users/User/Folder -s 140
 >>>
 ```
 
@@ -83,13 +86,13 @@ pip install -r requirements.txt
 для изоляции проекта.
 
 Необходимо создать `.env` файл, для хранения переменных окружения,
-которые будут использоваться в скриптах. В файле должен быть [API Key Nasa](https://api.nasa.gov/#signUp).
-Token телеграмм бота - создать бота, а так же получить токен можно
+которые будут использоваться в скриптах. В файле должна быть переменная
+`NASA_API_KEY`, которая хранит [API Key Nasa](https://api.nasa.gov/#signUp).
+Переменная `TELEGRAM_BOT_TOKEN`, создать бота, а так же получить токен можно
 у [BotFather](https://telegram.me/BotFather), токен должен иметь вид
 `7663460955:AACpJwnMS0K65ymVOj776xuwZ2b3xXjK4e4`. Так же в `.env` файле
-должна находится переменная, контролирующая таймер периодической отправки
-изображения в группу телеграмм, для скрипта `endless_sending_of_all_photos.py`.
-Время необходимо указать в виде числа, число представляет секунды. 
+должна находится переменная `TG_CHAT_ID` в которой хранится chat id телеграм канала,
+она необходима боту для отправки изображений.
 
 ### Цель проекта
 
