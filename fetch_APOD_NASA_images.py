@@ -1,17 +1,18 @@
+import argparse
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
 import requests
 
-from picture_work_instruments import picture_download, get_file_expansion
+from picture_work_instruments import download_picture, get_file_expansion
 
 
-def download_apod_images(api_key, images_file_path):
+def download_apod_images(api_key, images_file_path, count):
     apod_image_info = 'https://api.nasa.gov/planetary/apod'
 
     payload = {
-        'count': 30,
+        'count': count,
         'api_key': api_key
     }
 
@@ -20,20 +21,40 @@ def download_apod_images(api_key, images_file_path):
     images_info = images_info.json()
 
     for page_number, page in enumerate(images_info):
-        image_url = images_info[page_number]['url']
-        image_expansion = get_file_expansion(image_url)
-        image_name = f'nasa_apod_{page_number + 1}{image_expansion}'
-        picture_download(image_name, image_url, images_file_path)
+        if page['media_type'] == 'image':
+            image_url = images_info[page_number]['url']
+            image_expansion = get_file_expansion(image_url)
+            image_name = f'nasa_apod_{page_number + 1}{image_expansion}'
+            download_picture(image_name, image_url, images_file_path)
 
 
 def main():
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
 
-    images_file_path = 'images'
-    Path(images_file_path).mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser(
+        description='Download APOD NASA images'
+    )
 
-    download_apod_images(nasa_api_key, images_file_path)
+    parser.add_argument(
+        '-d',
+        '--directory',
+        type=str,
+        help='In which directory do you want to save the images?',
+        default=Path(Path.cwd(), 'images')
+    )
+
+    parser.add_argument(
+        '-n',
+        '--number_of_images',
+        type=str,
+        help='How many photos should upload?',
+        default=5
+    )
+
+    args = parser.parse_args()
+
+    download_apod_images(nasa_api_key, args.directory, args.number_of_images)
 
 
 if __name__ == '__main__':
