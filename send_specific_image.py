@@ -9,14 +9,14 @@ from dotenv import load_dotenv
 
 def send_image(tg_bot, tg_chat_id, image_path):
     if not image_path:
-        folder = 'images'
+        folder = Path(Path.cwd(), 'images')
         images = os.listdir(folder)
         image = random.choice(images)
         image_path = Path(folder, image)
 
     tg_bot.send_document(
         chat_id=tg_chat_id,
-        document=open(image_path, 'rb')
+        document=open(Path(image_path), 'rb')
     )
 
 
@@ -25,18 +25,20 @@ def main():
     tg_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
 
     tg_bot = telegram.Bot(token=tg_bot_token)
-    tg_chat_id = '@CosmoPicc'
+    tg_chat_id = os.environ['TG_CHAT_ID']
 
     parser = argparse.ArgumentParser(
         description='Send image in chat'
     )
+
     parser.add_argument(
         '-i',
         '--image_path',
         type=str,
-        help='Image path in folder/image.(expansion) format',
+        help='Image path in C:/folder/image.(expansion) format',
         default=''
     )
+
     args = parser.parse_args()
 
     send_image(tg_bot, tg_chat_id, args.image_path)
