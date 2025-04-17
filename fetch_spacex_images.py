@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from picture_work_instruments import picture_download
+from picture_work_instruments import download_picture
 
 
 def download_spacex_images(images_file_path, launch_id):
@@ -15,18 +15,24 @@ def download_spacex_images(images_file_path, launch_id):
 
     picture_links = response['links']['flickr']['original']
 
-    for picture_number, picture_link in enumerate(picture_links):
-        picture_name = f'spacex_{picture_number + 1}.jpg'
-        picture_download(picture_name, picture_link, images_file_path)
+    for picture_number, picture_link in enumerate(picture_links, start=1):
+        picture_name = f'spacex_{picture_number}.jpg'
+        download_picture(picture_name, picture_link, images_file_path)
 
 
 def main():
-    images_file_path = 'images'
-    Path(images_file_path).mkdir(parents=True, exist_ok=True)
-
     parser = argparse.ArgumentParser(
         description='Download images from SpaceX launch'
     )
+
+    parser.add_argument(
+        '-d',
+        '--directory',
+        type=str,
+        help='In which directory do you want to save the images?',
+        default=Path(Path.cwd(), 'images')
+    )
+
     parser.add_argument(
         '-id',
         '--launch_id',
@@ -34,9 +40,10 @@ def main():
         help='Certain SpaceX launch ID',
         default='latest'
     )
+
     args = parser.parse_args()
 
-    download_spacex_images(images_file_path, args.launch_id)
+    download_spacex_images(args.directory, args.launch_id)
 
 
 if __name__ == '__main__':
