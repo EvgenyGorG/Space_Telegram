@@ -20,10 +20,10 @@ def download_nasa_epic_images(api_key, images_file_path):
     images_info_response.raise_for_status()
     images_info_response = images_info_response.json()
 
-    for page_number in range(10):
-        file_name = images_info_response[page_number]['image']
+    for page_number, page in enumerate(images_info_response, start=1):
+        file_name = page['image']
 
-        image_date_time = images_info_response[page_number]['date']
+        image_date_time = page['date']
         iso_image_date_time = datetime.fromisoformat(image_date_time)
         formatted_image_date = iso_image_date_time.strftime("%Y/%m/%d")
 
@@ -31,7 +31,7 @@ def download_nasa_epic_images(api_key, images_file_path):
         image_url = response.url
 
         image_expansion = get_file_expansion(image_url)
-        image_name = f'nasa_epic_{page_number + 1}{image_expansion}'
+        image_name = f'nasa_epic_{page_number}{image_expansion}'
 
         download_picture(image_name, image_url, images_file_path)
 
