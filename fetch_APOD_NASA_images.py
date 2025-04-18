@@ -20,11 +20,11 @@ def download_apod_images(api_key, images_file_path, count):
     images_info.raise_for_status()
     images_info = images_info.json()
 
-    for page_number, page in enumerate(images_info):
+    for page_number, page in enumerate(images_info, start=1):
         if page['media_type'] == 'image':
-            image_url = images_info[page_number]['url']
+            image_url = page['url']
             image_expansion = get_file_expansion(image_url)
-            image_name = f'nasa_apod_{page_number + 1}{image_expansion}'
+            image_name = f'nasa_apod_{page_number}{image_expansion}'
             download_picture(image_name, image_url, images_file_path)
 
 
