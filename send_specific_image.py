@@ -8,11 +8,10 @@ from dotenv import load_dotenv
 
 
 def send_image(tg_bot, tg_chat_id, image_path):
-    if not image_path:
-        folder = Path(Path.cwd(), 'images')
-        images = os.listdir(folder)
+    if not image_path.suffix:
+        images = os.listdir(image_path)
         image = random.choice(images)
-        image_path = Path(folder, image)
+        image_path = Path(image_path, image)
 
     tg_bot.send_document(
         chat_id=tg_chat_id,
@@ -32,16 +31,14 @@ def main():
     )
 
     parser.add_argument(
-        '-i',
-        '--image_path',
+        'image_path',
         type=str,
-        help='Image path in C:/folder/image.(expansion) format',
-        default=''
+        help='Image path in C:/folder/ format or C:/folder/image.(exp) if you want to send specific image'
     )
 
     args = parser.parse_args()
 
-    send_image(tg_bot, tg_chat_id, args.image_path)
+    send_image(tg_bot, tg_chat_id, Path(args.image_path))
 
 
 if __name__ == '__main__':
