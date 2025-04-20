@@ -7,11 +7,15 @@ import telegram
 from dotenv import load_dotenv
 
 
+def get_random_image(image_path):
+    images = os.listdir(image_path)
+    image = random.choice(images)
+    return Path(image_path, image)
+
+
 def send_image(tg_bot, tg_chat_id, image_path):
     if not image_path.suffix:
-        images = os.listdir(image_path)
-        image = random.choice(images)
-        image_path = Path(image_path, image)
+        image_path = get_random_image(image_path)
 
     tg_bot.send_document(
         chat_id=tg_chat_id,
