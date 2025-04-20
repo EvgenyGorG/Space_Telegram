@@ -10,10 +10,12 @@ from dotenv import load_dotenv
 from send_specific_image import send_image
 
 
-def send_images(tg_bot, tg_chat_id, folder, send_time):
+def get_images_from_directory(folder):
     images_info = list(os.walk(folder))
-    images = images_info[0][2]
+    return images_info[0][2]
 
+
+def send_images(tg_bot, tg_chat_id, folder, images, send_time):
     while True:
         random.shuffle(images)
         for image in images:
@@ -52,10 +54,12 @@ def main():
     args = parser.parse_args()
 
     try:
-        send_images(tg_bot, tg_chat_id, args.directory, args.send_time)
+        images = get_images_from_directory(args.directory)
+        send_images(tg_bot, tg_chat_id, args.directory, images, args.send_time)
     except telegram.error.NetworkError:
         time.sleep(10)
-        send_images(tg_bot, tg_chat_id, args.directory, args.send_time)
+        images = get_images_from_directory(args.directory)
+        send_images(tg_bot, tg_chat_id, args.directory, images, args.send_time)
 
 
 if __name__ == '__main__':
