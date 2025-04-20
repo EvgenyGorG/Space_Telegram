@@ -31,13 +31,13 @@
 
 ## Скрипт изображений EPIC NASA
 
-Скрипт `fetch_EPIC_NASA_images.py` позволяет скачать несколько недавних изображений
-EPIC NASA. По желанию пользователь может указать директорию для загрузки.
+Скрипт `fetch_EPIC_NASA_images.py` позволяет скачать изображения
+EPIC NASA. По желанию пользователь может указать директорию для загрузки и количество изображений.
 
 ### Пример запуска
 
 ```
->>> python fetch_EPIC_NASA_images.py -d C://Users/User/Folder
+>>> python fetch_EPIC_NASA_images.py -d C://Users/User/Folder -n 10
 >>>
 ```
 
