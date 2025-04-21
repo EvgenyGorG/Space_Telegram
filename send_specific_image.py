@@ -17,10 +17,11 @@ def send_image(tg_bot, tg_chat_id, image_path):
     if not image_path.suffix:
         image_path = get_random_image(image_path)
 
-    tg_bot.send_document(
-        chat_id=tg_chat_id,
-        document=open(Path(image_path), 'rb')
-    )
+    with open(Path(image_path), 'rb') as file:
+        tg_bot.send_document(
+            chat_id=tg_chat_id,
+            document=file
+        )
 
 
 def main():
