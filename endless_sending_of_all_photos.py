@@ -16,12 +16,23 @@ def get_images_from_directory(folder):
 
 
 def send_images(tg_bot, tg_chat_id, folder, images, send_time):
+    first_check = True
+
     while True:
-        random.shuffle(images)
-        for image in images:
-            image_path = Path(folder, image)
-            send_image(tg_bot, tg_chat_id, image_path)
-            time.sleep(send_time)
+        try:
+            random.shuffle(images)
+            for image in images:
+                image_path = Path(folder, image)
+                send_image(tg_bot, tg_chat_id, image_path)
+                time.sleep(send_time)
+                first_check = True
+
+        except telegram.error.NetworkError:
+            if first_check:
+                first_check = False
+                time.sleep(5)
+            else:
+                time.sleep(30)
 
 
 def main():
@@ -53,13 +64,8 @@ def main():
 
     args = parser.parse_args()
 
-    try:
-        images = get_images_from_directory(args.directory)
-        send_images(tg_bot, tg_chat_id, args.directory, images, args.send_time)
-    except telegram.error.NetworkError:
-        time.sleep(10)
-        images = get_images_from_directory(args.directory)
-        send_images(tg_bot, tg_chat_id, args.directory, images, args.send_time)
+    images = get_images_from_directory(args.directory)
+    send_images(tg_bot, tg_chat_id, args.directory, images, args.send_time)
 
 
 if __name__ == '__main__':
