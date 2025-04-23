@@ -57,7 +57,7 @@ def main():
     parser.add_argument(
         '-s',
         '--send_time',
-        type=str,
+        type=int,
         help='Frequency of sending images (in seconds)',
         default=14400
     )
