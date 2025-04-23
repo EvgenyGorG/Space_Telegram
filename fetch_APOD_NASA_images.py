@@ -9,14 +9,14 @@ from picture_work_instruments import download_picture, get_file_expansion
 
 
 def download_apod_images(api_key, images_file_path, count):
-    apod_image_info = 'https://api.nasa.gov/planetary/apod'
+    apod_image_url = 'https://api.nasa.gov/planetary/apod'
 
     payload = {
         'count': count,
         'api_key': api_key
     }
 
-    images_info = requests.get(apod_image_info, params=payload)
+    images_info = requests.get(apod_image_url, params=payload)
     images_info.raise_for_status()
     images_info = images_info.json()
 

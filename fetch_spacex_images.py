@@ -7,9 +7,9 @@ from picture_work_instruments import download_picture
 
 
 def download_spacex_images(images_file_path, launch_id):
-    launch_info = 'https://api.spacexdata.com/v5/launches/'
+    launch_url = 'https://api.spacexdata.com/v5/launches/'
 
-    response = requests.get(f'{launch_info}{launch_id}')
+    response = requests.get(f'{launch_url}{launch_id}')
     response.raise_for_status()
     response = response.json()
 

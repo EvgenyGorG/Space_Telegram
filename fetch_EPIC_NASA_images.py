@@ -10,13 +10,13 @@ from picture_work_instruments import download_picture, get_file_expansion
 
 
 def download_nasa_epic_images(api_key, images_file_path, number_of_images):
-    epic_images_info = 'https://api.nasa.gov/EPIC/api/natural/images'
+    epic_images_url = 'https://api.nasa.gov/EPIC/api/natural/images'
 
     payload = {
         'api_key': api_key
     }
 
-    images_info_response = requests.get(epic_images_info, params=payload)
+    images_info_response = requests.get(epic_images_url, params=payload)
     images_info_response.raise_for_status()
     images_info_response = images_info_response.json()
 
