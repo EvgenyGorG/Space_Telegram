@@ -19,8 +19,8 @@ def send_images(tg_bot, tg_chat_id, folder, images, send_time):
     first_check = True
 
     while True:
+        random.shuffle(images)
         try:
-            random.shuffle(images)
             for image in images:
                 image_path = Path(folder, image)
                 send_image(tg_bot, tg_chat_id, image_path)
