@@ -57,7 +57,7 @@ def main():
     parser.add_argument(
         '-n',
         '--number_of_images',
-        type=str,
+        type=int,
         help='How many photos should upload?',
         default=5
     )
